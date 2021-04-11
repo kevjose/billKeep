@@ -21,7 +21,12 @@ app.use(decodeIDToken);
 
 app.use("/api", usersRouter);
 
-const PORT = 3001;
+data = {
+  msg: "Welcome to bill-keep server",
+};
+app.route("/").get((req, res) => res.json(data));
+
+const PORT = process.env.POR || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
