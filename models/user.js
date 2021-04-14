@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   name: String,
-  number: String,
+  phone: String,
 });
 
 userSchema.set("toJSON", {

@@ -1,16 +1,16 @@
 const usersRouter = require("express").Router();
 const User = require("../models/user");
 
-usersRouter.get("/users", async (req, res) => {
+usersRouter.get("/user", async (req, res) => {
   const auth = req.currentUser;
   if (auth) {
-    const users = await User.find({});
-    return res.json(users.map((user) => user.toJSON()));
+    const user = await User.findOne({});
+    return res.json(user);
   }
   return res.status(403).send("Not authorized");
 });
 
-usersRouter.post("/users", (req, res) => {
+usersRouter.post("/user", (req, res) => {
   const auth = req.currentUser;
   if (auth) {
     const user = new User(req.body);
