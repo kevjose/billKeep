@@ -12,12 +12,11 @@ usersRouter.get("/user", async (req, res) => {
 
 usersRouter.post("/user", async (req, res) => {
   const auth = req.currentUser;
-  console.log(auth, req.body);
   if (auth) {
     await User.updateOne(
-      { phone: auth.phone },
+      { phone: auth.phone_number },
       { $set: { name: req.body.name } },
-      { new: true }
+      { new: true, upsert: true }
     );
     return res
       .status(201)
