@@ -3,7 +3,7 @@ const Board = require("../models/board");
 const cloudinary = require("cloudinary");
 const config = require("../config/keys");
 var multer = require("multer");
-var uploads = multer({ dest: "../uploads" });
+var uploads = multer({ dest: "/tmp/" });
 
 const fs = require("fs-extra");
 const { auth } = require("firebase-admin");
