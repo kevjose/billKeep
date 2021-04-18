@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const decodeIDToken = require("./authentication");
 const usersRouter = require("./controllers/users");
+const boardsRouter = require("./controllers/boards");
 const app = express();
 const db = require("./config/keys").mongoURI;
 
@@ -22,9 +23,11 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(decodeIDToken);
 
 app.use("/api", usersRouter);
+app.use("/api", boardsRouter);
 
 const data = {
   msg: "Welcome to bill-keep server",
