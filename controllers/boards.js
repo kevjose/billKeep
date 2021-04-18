@@ -30,7 +30,7 @@ boardsRouter.post(
   "/board",
   uploads.single("boardCoverImage"),
   async (req, res) => {
-    // const auth = req.currentUser;
+    const auth = req.currentUser;
     const {
       name,
       description,
