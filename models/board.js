@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const boardSchema = new mongoose.Schema({
   name: String,
   description: String,
-  color: int,
+  color: Number,
   collaborators: [String],
   boardCoverUrl: String,
   owner: String,
