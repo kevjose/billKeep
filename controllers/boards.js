@@ -40,35 +40,39 @@ boardsRouter.post(
       cloudinary_public_id,
     } = req.body;
     if (auth) {
-      const result = await cloudinary.v2.uploader.upload(req.file.path, {
-        folder: "bill_keep/boards",
-      });
-      console.log(result);
-      const query = { owner: auth.phone_number };
-      if (id) {
-        query["_id"] = mongoose.Types.ObjectId(id);
-      }
-      console.log(query);
-      const response = await Board.findOneAndUpdate(
-        query,
-        {
-          $set: {
-            name,
-            description,
-            color,
-            collaborators,
-            boardCoverUrl: result.secure_url,
-            cloudinary_public_id: result.public_id,
+      try {
+        const result =
+          req?.file?.path &&
+          (await cloudinary.v2.uploader.upload(req.file.path, {
+            folder: "bill_keep/boards",
+          }));
+        const query = { owner: auth.phone_number };
+        if (id) {
+          query["_id"] = mongoose.Types.ObjectId(id);
+        }
+        const response = await Board.findOneAndUpdate(
+          query,
+          {
+            $set: {
+              name,
+              description,
+              color,
+              collaborators,
+              boardCoverUrl: result?.secure_url || null,
+              cloudinary_public_id: result?.public_id || null,
+            },
           },
-        },
-        { new: true, upsert: true }
-      );
-      await fs.unlink(req.file.path);
-      if (cloudinary_public_id) {
-        await cloudinary.v2.uploader.destroy(cloudinary_public_id);
+          { new: true, upsert: true }
+        );
+        await fs.unlink(req.file.path);
+        if (cloudinary_public_id) {
+          await cloudinary.v2.uploader.destroy(cloudinary_public_id);
+        }
+        console.log(response);
+        return res.status(201).json(response);
+      } catch (e) {
+        return res.status(503).send(e.message);
       }
-      console.log(response);
-      return res.status(201).json(response);
     }
     return res.status(403).send("Not authorized");
   }
