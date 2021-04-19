@@ -64,7 +64,7 @@ boardsRouter.post(
           },
           { new: true, upsert: true }
         );
-        await fs.unlink(req.file.path);
+        req?.file?.path && (await fs.unlink(req.file.path));
         if (cloudinary_public_id) {
           await cloudinary.v2.uploader.destroy(cloudinary_public_id);
         }
