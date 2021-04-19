@@ -46,7 +46,7 @@ boardsRouter.post(
           (await cloudinary.v2.uploader.upload(req.file.path, {
             folder: "bill_keep/boards",
           }));
-        const query = { owner: auth.phone_number };
+        const query = { owner: auth.phone_number, name };
         if (id) {
           query["_id"] = mongoose.Types.ObjectId(id);
         }
