@@ -31,10 +31,11 @@ itemsRouter.get("/item/:board_id", async (req, res) => {
           count: { $sum: 1 },
         },
       },
+      { $sort: { total: -1 } },
     ]);
     const items = await Item.find({
       board_id: mongoose.Types.ObjectId(req.params.board_id),
-    });
+    }).sort({ itemDate: -1 });
     return res.json({ items, labels });
   }
   return res.status(403).send("Not authorized");
