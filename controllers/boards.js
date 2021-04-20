@@ -6,7 +6,6 @@ var multer = require("multer");
 var uploads = multer({ dest: "/tmp/" });
 
 const fs = require("fs-extra");
-const { auth } = require("firebase-admin");
 const mongoose = require("mongoose");
 
 cloudinary.config({

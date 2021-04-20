@@ -7,6 +7,7 @@ const usersRouter = require("./controllers/users");
 const boardsRouter = require("./controllers/boards");
 const app = express();
 const db = require("./config/keys").mongoURI;
+const itemsRouter = require("./controllers/items");
 
 mongoose
   .connect(db, {
@@ -28,6 +29,7 @@ app.use(decodeIDToken);
 
 app.use("/api", usersRouter);
 app.use("/api", boardsRouter);
+app.use("/api", itemsRouter);
 
 const data = {
   msg: "Welcome to bill-keep server",
