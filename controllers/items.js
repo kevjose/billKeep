@@ -58,23 +58,17 @@ itemsRouter.post("/item", uploads.single("itemImageUrl"), async (req, res) => {
         (await cloudinary.v2.uploader.upload(req.file.path, {
           folder: "bill_keep/items",
         }));
-      const query = { board_id: mongoose.Types.ObjectId(board_id) };
 
-      const response = await Item.findOneAndUpdate(
-        query,
-        {
-          $set: {
-            name,
-            description,
-            labels,
-            itemImageUrl: result?.secure_url || null,
-            cloudinary_public_id: result?.public_id || null,
-            amount,
-            itemDate,
-          },
-        },
-        { new: true, upsert: true }
-      );
+      const response = await Item.create({
+        board_id: mongoose.Types.ObjectId(board_id),
+        name,
+        description,
+        labels,
+        itemImageUrl: result?.secure_url || null,
+        cloudinary_public_id: result?.public_id || null,
+        amount,
+        itemDate,
+      });
 
       req?.file?.path && (await fs.unlink(req.file.path));
       if (cloudinary_public_id) {
