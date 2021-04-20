@@ -17,7 +17,7 @@ cloudinary.config({
 itemsRouter.get("/item/:board_id", async (req, res) => {
   const auth = req.currentUser;
   if (auth) {
-    const labelsCount = await Item.aggregate([
+    const labels = await Item.aggregate([
       {
         $match: {
           board_id: mongoose.Types.ObjectId(req.params.board_id),
